@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+html {
+    font-size: 100%;
+}
+
+body {
+    max-width: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin: 40px;
+}
+
+/*label*/
+ label {
+    display: block;  /*blockにすることで一つの塊にする*/
+    width: 50px;
+  }
+  
+  .todo,
+  .money,
+  .take,
+  .date,
+  .duedate,
+  .memo {
+    display: flex;
+    align-items: center;
+  }
+
+/*todo*/
+#todo-sec {
+    display: flex;
+}
+
+.all-plan {
+    display: flex;
+    margin: 0 auto
+}
+
+.left {
+    margin-left: 20px;
+}
+
+.right {
+    margin-left: 20px;
+}
+
+.weather {
+    display: flex; 
+}
+
+.weather label {
+    display: flex;
+    align-items: center; 
+    white-space: nowrap;
+    margin-right: 10px; 
+}
+
+.rainOrshine,
+.dueTorain,
+.another {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+}
+
+#rainOrshine,
+#dueTorain,
+#another {
+    height: 20px;
+    width: 20px;
+}
+
+
+
+.tentative-plan {
+    display: flex;
+}
+
+#tentative-plan {
+    height: 20px;
+    width: 20px;
+}
+
+.all-plan input,
+.all-plan textarea {
+    border: 1px solid gray;
+    padding: 5px;
+    width: 400px;
+    margin: 3px 10px 3px 10px;
+    height: 40px;
+}
+
+.all-plan textarea {
+    height: 50px;
+}
+
+/*button*/
+.button-form {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+button {
+    border: 2px solid gray;
+    border-radius: 5px;
+    width: 80px;
+    height: 30px;
+    background-color: gainsboro;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.add {
+    margin-right: 50px;
+}
+  
+.delete {
+    margin-right: 10px;
+}
+
+/*table*/
+table {
+    margin: 0 auto;
+}
+
+tr {
+    color: white;
+}
+
+/*ここからJSの処理後のCSS*/
+.table-center {
+    text-align: center;
+}
+
+.table-right {
+    text-align: right;
+}
+
+.buttonTd {
+    text-align: center;
+}
+
+.buttonTd:hover {
+    opacity: 0.8;
+}

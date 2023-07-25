@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>Todolist</title>
+        <meta name="description" content="テキストテキストテキスト">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css"><!--今後のRe:cssはいれるかわかんない-->
+        <link rel="stylesheet" href="style.css">
+        <!--<script src="app.js" defer></script>-->
+        <script src="sab.js" defer></script>
+    </head>
+
+    <body>
+        <h1>Todolist</h1>
+
+        <!--todoを入力するところ-->
+        <section id="todo-sec">
+            <div class="all-plan">
+                <div class="left">
+                    <div class="todo">
+                        <label for="todo">予定</label>
+                        <input id="todo" type="text" name="todo-form" placeholder="予定を入力してください">
+                    </div>
+                    <div class="money">
+                        <label for="money">お金</label>
+                        <input id="money" type="text" name="money-form" placeholder="金額を入力してください">
+                    </div>
+                    <div class="take">
+                        <label class="take-text" for="take">持ち物</label>
+                        <textarea id="take" name="take-form"></textarea>
+                    </div>
+                    <div class="tentative-plan">
+                            <!--仮予定-->
+                            <label for="tentative-plan">仮予定</label>
+                            <input id="tentative-plan" type="checkbox">
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="date">
+                        <label for="date">日時</label>
+                        <input id="date" type="datetime-local" name="date-form">
+                    </div>
+                    <div class="duedate">
+                        <label for="duedate">期日</label>
+                        <input id="duedate" type="datetime-local" name="duedate-form">
+                    </div>
+                    <div class="memo">
+                        <label for="memo">メモ</label>
+                        <textarea id="memo" name="memo-form"></textarea>
+                    </div>
+                <div class="weather">
+                    <div class="rainOrshine">
+                        <label for="rainOrshine">雨天決行</label>
+                        <input id="rainOrshine" type="radio" name="rain-or-shine">
+                    </div>
+                    <div class="dueTorain">
+                        <label for="dueTorain">雨天中止</label>
+                        <input id="dueTorain" type="radio" name="rain-or-shine">
+                    </div>
+                    <div class="another">
+                        <label for="another">未決定</label>
+                        <input id="another" type="radio" name="rain-or-shine" checked>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+                <!--button-->
+                <div class="button-form">
+                    <button id="addButton" class="add" type="button" name="add" value="登録">登録</button>
+                    
+                   <button id="allDeleteButton" class="delete" type="button" name="all-delete" value="全削除">全削除</button>
+
+                    <button id="selectDeleteButton" class="delete" type="button" name="select-delete" value="選択削除">選択削除</button>
+                </div>
+        </section>
+
+        <!--table-->
+        <section id="table-sec">
+            <div id="tableForm">
+                <table border="1" height="40px" style="border-collapse: collapse; border-color: white; background-color: gray;">
+
+                    <!--<thead>というかきかたもある-->
+                    <tr>
+                        <th class="table-check" width="40px"></th>
+                        <th class="table-id" width="40px">ID</th>
+                        <th class="table-todo" width="120px">予定</th>
+                        <th class="table-date" width="240px">日時</th>
+                        <th class="table-momey" width="120px">お金</th>
+                        <th class="table-take" width="180px">持ち物</th>
+                        <th class="table-memo" width="120px">メモ</th>
+                        <th class="table-duedate" width="240px">期日</th>
+                        <th class="table-button" width="120px"></th>
+                        <th class="table-plan" width="120px">仮予定</th>
+                        <th class="table-weather" width="120px">雨天</th>
+                    </tr>
+
+                    <tbody id="table-add"><!--ここも<tbody>というかきかたの学習-->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>
