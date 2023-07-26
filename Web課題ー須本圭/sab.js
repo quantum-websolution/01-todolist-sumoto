@@ -22,7 +22,7 @@
     const weatheres = document.querySelectorAll("input[name='rain-or-shine']")
     //console.log(weatheres)
 
-    //追加チェックボックス機能
+    /*//追加チェックボックス機能
     tentativePlan.addEventListener("change", () => {
         if (tentativePlan.checked) {
             tentativePlan.value = "仮";
@@ -30,9 +30,17 @@
             tentativePlan.value = "確定済み";
         }
         //console.log( tentativePlan.value)
-    })
+    })*/
 
-    
+    /*//追加ラジオボタン機能
+    weatheres.forEach(weather => {
+        weather.addEventListener("change", () => {
+            const weatherName = document.querySelector("input[name='rain-or-shine'].checked")
+            const weatherLabel = document.querySelector("label[for='" + weatherName.id +"']")
+            const weatherValue = selectedLabel.textContent
+            todo.value = weatherValue
+        })
+    })*/
 
     //table
     const tableAdd = document.getElementById("table-add")
@@ -57,9 +65,7 @@
             duedate: duedate.value,
             memo: memo.value,
             tentativePlan: tentativePlan.value,
-            rainOrshine: rainOrshine.value,
-            dueTorain: dueTorain.value,
-            another: another.value,
+            weatheres: weatheres.values,
         }
 
     if(todoList) {
@@ -71,9 +77,7 @@
         duedate.value = ""
         memo.value = ""
         tentativePlan.value = ""
-        rainOrshine.value = ""
-        dueTorain.value = ""
-        another.value = ""
+        weatheres.values = ""
         showTodos()
     }
   }
@@ -148,14 +152,8 @@
             const tabletenTativePlan = document.createElement("td")
             tabletenTativePlan.classList.add("table-center")
 
-            const tableRainOrshine = document.createElement("td")
-            tableRainOrshine.classList.add("table-center")
-
-            const tableDueTorain = document.createElement("td")
-            tableDueTorain.classList.add("table-center")
-
-            const tableAnother = document.createElement("td")
-            tableAnother.classList.add("table-center")
+            const tableWeather = document.createElement("td")
+            tableWeather.classList.add("table-center")
 
             //追加したtdの中にいれるテキスト
             
@@ -205,12 +203,17 @@
             const deleteButton = createDeleteButton(tableRecord)
             tableButton.appendChild(deleteButton)
 
-            const planValue = tentativePlan.value
-            if(todolists.tentativePlan === "") {
-                planValue.textContent = "仮の予定"
-            } else {
-                planValue.textContent = "確定済み"
+            // 新要素
+            const tentativePlanValue = todolist.tentativePlan ? "仮" : "確定";
+            tabletenTativePlan.textContent = tentativePlanValue;
+
+            //ここにラジオボタン追加
+            let weatherValue = "";
+            const weatherChecked = document.querySelector("input[name='rain-or-shine']:checked");
+            if (weatherChecked) {
+             weatherValue = document.querySelector("label[for='" + weatherChecked.id + "']").textContent;
             }
+            tableWeather.textContent = weatherValue;
 
          //上記で新しくつくった要素をここで追加している。
             tableRecord.appendChild(tableCheck) //指定された要素を既存の要素の子要素として追加している。これによりtableCheckがtableRecordの子要素として追加される。
@@ -222,6 +225,8 @@
             tableRecord.appendChild(tableMemo)
             tableRecord.appendChild(tableDuedate)
             tableRecord.appendChild(tableButton)
+            tableRecord.appendChild(tabletenTativePlan)
+            tableRecord.appendChild(tableWeather)
         })
     }
 
