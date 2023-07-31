@@ -17,30 +17,14 @@
     const selectDeleteButton = document.getElementById("selectDeleteButton")
 
     //新追加
-    const tentativePlan = document.getElementById("tentative-plan")
+    const tentativePlan = document.getElementById("tentative-plan-checkbox")
 
-    const weatheres = document.querySelectorAll("input[name='rain-or-shine']")
+    /*const weatheres = document.querySelectorAll("input[name='rain-or-shine']")*/
     //console.log(weatheres)
 
-    /*//追加チェックボックス機能
-    tentativePlan.addEventListener("change", () => {
-        if (tentativePlan.checked) {
-            tentativePlan.value = "仮";
-        } else {
-            tentativePlan.value = "確定済み";
-        }
-        //console.log( tentativePlan.value)
-    })*/
-
-    /*//追加ラジオボタン機能
-    weatheres.forEach(weather => {
-        weather.addEventListener("change", () => {
-            const weatherName = document.querySelector("input[name='rain-or-shine'].checked")
-            const weatherLabel = document.querySelector("label[for='" + weatherName.id +"']")
-            const weatherValue = selectedLabel.textContent
-            todo.value = weatherValue
-        })
-    })*/
+    const rainOrshineLabel = document.getElementById("rainOrshineLabel")
+    const dueTorainLabel = document.getElementById("dueTorainLabel")
+    const anotherLabel = document.getElementById("anotherLabel")
 
     //table
     const tableAdd = document.getElementById("table-add")
@@ -56,6 +40,7 @@
             alert("予定を入力してください")  //console.logの処理確認は位置で変わる
         } else {
         
+
         //console.log("テスト")
         const todoList = {  //連想配列
             todo: todo.value,
@@ -64,9 +49,24 @@
             date: date.value,
             duedate: duedate.value,
             memo: memo.value,
+            /*tentativePlan: tentativePlan.checked ? "仮" : "確定",
+            rainOrshineLabel: ""*/
             tentativePlan: tentativePlan.value,
-            weatheres: weatheres.values,
+            //weatheres: weatheres.values,
+            rainOrshineLabel: rainOrshineLabel.value,
+            dueTorainLabel: dueTorainLabel.value,
+            anotherLabel: anotherLabel.value,
         }
+
+        /*const weatherRadios = document.querySelectorAll("input[name='rain-or-shine']");
+
+        if (weatherRadios[0].checked) {
+            todoList.rainOrshineLabel = weatherRadios[0].value;
+        } else if (weatherRadios[1].checked) {
+            todoList.rainOrshineLabel = weatherRadios[1].value;
+        } else {
+            todoList.rainOrshineLabel = weatherRadios[2].value;
+        }*/
 
     if(todoList) {
         todolists.push(todoList)  //todolistsの後ろに新しく生成したtodoListを追加していく　
@@ -76,8 +76,13 @@
         date.value = ""
         duedate.value = ""
         memo.value = ""
+        /*tentativePlan.checked = false;
+        weatherRadios[2].checked = true;*/
         tentativePlan.value = ""
-        weatheres.values = ""
+        //weatheres.values = ""
+        rainOrshineLabel.value = ""
+        dueTorainLabel.value = ""
+        anotherLabel.value = "" 
         showTodos()
     }
   }
@@ -112,7 +117,8 @@
     }
 
     const showTodos = () => {
-        tableAdd.textContent = ""  //ここで一度クリアにする
+        tableAdd.textContent = ""
+        /*tableAdd.textContent = ""  //ここで一度クリアにする*/
         
         //配列の取り出し
         todolists.forEach((todolist, number) => {
@@ -200,20 +206,24 @@
             }
 
 
-            const deleteButton = createDeleteButton(tableRecord)
-            tableButton.appendChild(deleteButton)
 
-            // 新要素
-            const tentativePlanValue = todolist.tentativePlan ? "仮" : "確定";
-            tabletenTativePlan.textContent = tentativePlanValue;
+            // 新要素  //チェックボックス
+            const tentativePlanValue = tentativePlan.checked ? "仮" : "確定";  //三項演算子使ってみた
+            tabletenTativePlan.textContent = tentativePlanValue
 
             //ここにラジオボタン追加
-            let weatherValue = "";
-            const weatherChecked = document.querySelector("input[name='rain-or-shine']:checked");
-            if (weatherChecked) {
-             weatherValue = document.querySelector("label[for='" + weatherChecked.id + "']").textContent;
+           const rainOrshineChecked = rainOrshineLabel.checked;
+           const dueTorainChecked = dueTorainLabel.checked;
+           const anotherChecked = anotherLabel.checked;    
+            
+            const weatherValue = todolist.rainOrshineLabel.checked
+            if(rainOrshineChecked) {
+                tableWeather.textContent = "雨天決行"
+            } else if(dueTorainChecked) {
+                tableWeather.textContent = "雨天中止"
+            } else if(anotherChecked) {
+                tableWeather.textContent = "未決定"
             }
-            tableWeather.textContent = weatherValue;
 
          //上記で新しくつくった要素をここで追加している。
             tableRecord.appendChild(tableCheck) //指定された要素を既存の要素の子要素として追加している。これによりtableCheckがtableRecordの子要素として追加される。
