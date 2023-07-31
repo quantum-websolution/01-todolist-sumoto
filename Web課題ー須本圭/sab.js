@@ -86,7 +86,7 @@
         date: format(date.value),
         duedate: format(duedate.value),
         memo: memo.value,
-        //三項演算子使ってみた(checkが入ってたら仮、入ってなかったら確定)
+        //新機能(checkbox)三項演算子使ってみた(checkが入ってたら仮、入ってなかったら確定)
         checkbox: tentativePlan.checked ? "仮" : "確定",
       }
 
