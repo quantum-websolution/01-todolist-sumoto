@@ -16,57 +16,62 @@
     const allDeleteButton = document.getElementById("allDeleteButton")
     const selectDeleteButton = document.getElementById("selectDeleteButton")
 
-    //新追加
+    //新機能(checkbox)
     const tentativePlan = document.getElementById("tentative-plan-checkbox")
 
-    /*const weatheres = document.querySelectorAll("input[name='rain-or-shine']")*/
-    //console.log(weatheres)
+    //新機能(radio)
+    const radio = document.querySelectorAll('input[type="radio"][name="rain-or-shine"]')
 
-    const rainOrshineLabel = document.getElementById("rainOrshineLabel")
-    const dueTorainLabel = document.getElementById("dueTorainLabel")
-    const anotherLabel = document.getElementById("anotherLabel")
+    // const rainOrshineLabel = document.getElementById("rainOrshineLabel")
+    // const dueTorainLabel = document.getElementById("dueTorainLabel")
+    // const anotherLabel = document.getElementById("anotherLabel")
 
     //table
     const tableAdd = document.getElementById("table-add")
 
-    //console.log(tableForm)
-
-    //addbtn処理
+    
+     // 登録ボタンがクリックされた時
     addButton.addEventListener("click", () => {
-
-        //console.log(todo.value === "")
 
         if (todo.value === "") {
             alert("予定を入力してください")  //console.logの処理確認は位置で変わる
         } else {
         
 
+        const format = (dateValue) => {
+            if (dateValue !== "") {
+              const formats = new Date(dateValue);
+              const Year = formats.getFullYear();
+              const Month = formats.getMonth() + 1;
+              const Day = formats.getDate();
+              const Hours = formats.getHours();
+              const Minutes = formats.getMinutes();
+              const Seconds = formats.getSeconds() + ":" + "00";
+              return `${Year}/${Month}/${Day} ${Hours}:${Minutes}:${Seconds}`;
+            } else {
+              return "";
+            }
+          }
+
         //console.log("テスト")
         const todoList = {  //連想配列
             todo: todo.value,
-            money: money.value,
+            //三項演算子でやる
+            money: money.value === "" ? "０円" : `${money.value}円`,
             take: take.value,
-            date: date.value,
-            duedate: duedate.value,
+            date: format(date.value),
+            duedate: format(duedate.value),
             memo: memo.value,
-            /*tentativePlan: tentativePlan.checked ? "仮" : "確定",
-            rainOrshineLabel: ""*/
-            tentativePlan: tentativePlan.value,
-            //weatheres: weatheres.values,
-            rainOrshineLabel: rainOrshineLabel.value,
-            dueTorainLabel: dueTorainLabel.value,
-            anotherLabel: anotherLabel.value,
+            //三項演算子使ってみた(checkが入ってたら仮、入ってなかったら確定)
+            checkbox: tentativePlan.checked ? "仮" : "確定",
         }
 
-        /*const weatherRadios = document.querySelectorAll("input[name='rain-or-shine']");
-
-        if (weatherRadios[0].checked) {
-            todoList.rainOrshineLabel = weatherRadios[0].value;
-        } else if (weatherRadios[1].checked) {
-            todoList.rainOrshineLabel = weatherRadios[1].value;
-        } else {
-            todoList.rainOrshineLabel = weatherRadios[2].value;
-        }*/
+        //新機能(radio)
+        radio.forEach(element => {
+            if (element.checked) {
+                todoList.radio = element.value;
+              }
+            })
 
     if(todoList) {
         todolists.push(todoList)  //todolistsの後ろに新しく生成したtodoListを追加していく　
@@ -76,45 +81,10 @@
         date.value = ""
         duedate.value = ""
         memo.value = ""
-        /*tentativePlan.checked = false;
-        weatherRadios[2].checked = true;*/
-        tentativePlan.value = ""
-        //weatheres.values = ""
-        rainOrshineLabel.value = ""
-        dueTorainLabel.value = ""
-        anotherLabel.value = "" 
         showTodos()
     }
   }
     })
-
-    //alldelete処理
-    allDeleteButton.addEventListener("click", () => {
-        const addTrue = confirm("本当に予定を削除しますか？")
-        if(addTrue === true) {
-        //console.log(todolists)
-        todolists = []
-        //todolists.splice(0, todolists.length)
-       // console.log(todolists) //動きの確認
-        showTodos() 
-        }
-    })
-
-      //削除ボタン,tableRecordの削除をする処理
-      const createDeleteButton = (tableRecord) => { //引数をいれることで関数処理の中に引数を利用して処理ができる。//ボタンが押されたときに外部から渡される値　
-        //新しくつくった<tr>の中に削除ボタンを生成し動く処理
-        const deleteButton = document.createElement("button") //表に入る削除buttonの作成
-        deleteButton.textContent = "削除"
-
-        deleteButton.classList.add("delete-button-class");
-
-        deleteButton.addEventListener("click", () => {
-            const index = tableRecord.rowIndex-1 //rowIndexはテーブル要素に使用できるプロパティ　//-1 はテーブルのインデックスが０からのため
-            todolists.splice(index, 1)  //上記でindexの変数をとりspliceで生成したtodolistsの０番目から1つ削除する
-            showTodos()
-        })
-        return deleteButton //このreturnがあることで関数の外部に返され、ボタンが押されるたびに新しい削除ボタンの生成ができる
-    }
 
     const showTodos = () => {
         tableAdd.textContent = ""
@@ -129,36 +99,24 @@
             tableAdd.appendChild(tableRecord) //tableRecordがtableAddの子要素として追加された。
 
             const tableCheck = document.createElement("td")
-            tableCheck.classList.add("table-center")
-
             const tableId = document.createElement("td")
-            tableId.classList.add("table-center")
-
             const tableTodo = document.createElement("td")
-            
-
             const tableDate = document.createElement("td")
-            tableDate.classList.add("table-center")
-
             const tableMoney = document.createElement("td")
-            tableMoney.classList.add("table-right")
-
             const tableTake = document.createElement("td")
-            
-
             const tableMemo = document.createElement("td")
-            
-
             const tableDuedate = document.createElement("td")
-            tableDuedate.classList.add("table-center")
-
             const tableButton = document.createElement("td")
-            tableButton.classList.add("table-center")
-
             const tabletenTativePlan = document.createElement("td")
-            tabletenTativePlan.classList.add("table-center")
-
             const tableWeather = document.createElement("td")
+
+            tableCheck.classList.add("table-center")
+            tableId.classList.add("table-center")
+            tableDate.classList.add("table-center")
+            tableMoney.classList.add("table-right")
+            tableDuedate.classList.add("table-center")
+            tableButton.classList.add("table-center")
+            tabletenTativePlan.classList.add("table-center")
             tableWeather.classList.add("table-center")
 
             //追加したtdの中にいれるテキスト
@@ -169,61 +127,15 @@
             tableId.textContent = number + 1
             tableTodo.textContent = todolist.todo //組んだ配列のなかからドット記法で表記
             tableDate.textContent = todolist.date
-            //フォーマット変更
-            const format = new Date(todolist.date)
-            //console.log(format.toLocaleString())
-            if(todolist.date !== "") {
-                const Year = format.getFullYear()
-                const Month = format.getMonth() + 1
-                const Date = format.getDate()
-                const Hours = format.getHours()
-                const Minutes = format.getMinutes()
-                const Seconds = format.getSeconds() + ":" + "00"
-                tableDate.textContent = Year+"/"+Month+"/"+Date+" "+Hours+":"+Minutes+":"+Seconds
-            }
-
             tableMoney.textContent = todolist.money
-
-            const moneyValue = todolist.money
-            if(todolist.money === "") {
-                tableMoney.textContent = "０円"
-            } else {
-                tableMoney.textContent = `${moneyValue}円`
-            }
-
             tableTake.textContent = todolist.take
             tableMemo.textContent = todolist.memo
             tableDuedate.textContent = todolist.duedate
-            const format2 = new Date(todolist.duedate)
-            if(todolist.duedate !== "") {
-                const Year2 = format2.getFullYear()
-                const Month2 = format2.getMonth() + 1
-                const Date2 = format2.getDate()
-                const Hours2 = format2.getHours()
-                const Minutes2 = format2.getMinutes()
-                const Seconds2 = format2.getSeconds() + ":" + "00"
-                tableDuedate.textContent = Year2+"/"+Month2+"/"+Date2+" "+Hours2+":"+Minutes2+":"+Seconds2
-            }
+            tabletenTativePlan.textContent = todolist.checkbox
+            tableWeather.textContent = todolist.radio
 
-
-
-            // 新要素  //チェックボックス
-            const tentativePlanValue = tentativePlan.checked ? "仮" : "確定";  //三項演算子使ってみた
-            tabletenTativePlan.textContent = tentativePlanValue
-
-            //ここにラジオボタン追加
-           const rainOrshineChecked = rainOrshineLabel.checked;
-           const dueTorainChecked = dueTorainLabel.checked;
-           const anotherChecked = anotherLabel.checked;    
-            
-            const weatherValue = todolist.rainOrshineLabel.checked
-            if(rainOrshineChecked) {
-                tableWeather.textContent = "雨天決行"
-            } else if(dueTorainChecked) {
-                tableWeather.textContent = "雨天中止"
-            } else if(anotherChecked) {
-                tableWeather.textContent = "未決定"
-            }
+            const deleteButton = createDeleteButton(tableRecord)
+            tableButton.appendChild(deleteButton)
 
          //上記で新しくつくった要素をここで追加している。
             tableRecord.appendChild(tableCheck) //指定された要素を既存の要素の子要素として追加している。これによりtableCheckがtableRecordの子要素として追加される。
@@ -240,7 +152,41 @@
         })
     }
 
-    //selectdalete処理
+    //全削除ボタン
+    allDeleteButton.addEventListener("click", () => {
+        const addTrue = confirm("本当に予定を削除しますか？")
+        if(addTrue === true) {
+        //console.log(todolists)
+        todolists = []
+        //todolists.splice(0, todolists.length)
+       // console.log(todolists) //動きの確認
+        showTodos() 
+        }
+    })
+
+     // ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+     // todo: 削除ボタンが表示されないバグ修正
+     //削除ボタン
+     const createDeleteButton = (tableRecord) => {
+       //引数をいれることで関数処理の中に引数を利用して処理ができる。//ボタンが押されたときに外部から渡される値　
+       //新しくつくった<tr>の中に削除ボタンを生成し動く処理
+       const deleteButton = document.createElement("button") //表に入る削除buttonの作成
+       deleteButton.textContent = "削除"
+
+       deleteButton.classList.add("delete-button-class");
+
+       deleteButton.addEventListener("click", () => {
+         const index = tableRecord.rowIndex - 1 //rowIndexはテーブル要素に使用できるプロパティ　//-1 はテーブルのインデックスが０からのため
+         todolists.splice(index, 1)  //上記でindexの変数をとりspliceで生成したtodolistsの０番目から1つ削除する
+         showTodos()
+       })
+       return deleteButton //このreturnがあることで関数の外部に返され、ボタンが押されるたびに新しい削除ボタンの生成ができる
+     }
+
+  // ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+    //選択削除ボタン
     selectDeleteButton.addEventListener("click", () => {
         const checkBoxes = document.querySelectorAll("input[type='checkbox']") //const boxで作った<input>をここで取得。[]で属性の指定
         const indexDelete = [] //削除の対象となるチェックボックスを保存する配列の定義
