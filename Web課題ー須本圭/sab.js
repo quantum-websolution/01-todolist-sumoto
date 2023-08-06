@@ -2,10 +2,14 @@
 
 {
     let todolists = [] //空の配列を定義する理由は後からpushで追加もできるし、削除ボタンにも使用でき、柔軟性がある
+    //ブラウザに表示されていない状態から作業したい。
 
     //todo
     const todo = document.getElementById("todo")
     const money = document.getElementById("money")
+    money.addEventListener("input", () => {
+        money.value = money.value.replace(/\D/g, ""); // 数字以外の文字を削除
+      })
     const take = document.getElementById("take")
     const date = document.getElementById("date")
     const duedate = document.getElementById("duedate")
@@ -39,7 +43,7 @@
         
 
         const format = (dateValue) => {
-            if (dateValue !== "") {
+            //if (dateValue !== "") {
               const formats = new Date(dateValue);
               const Year = formats.getFullYear();
               const Month = formats.getMonth() + 1;
@@ -48,19 +52,19 @@
               const Minutes = formats.getMinutes();
               const Seconds = formats.getSeconds() + ":" + "00";
               return `${Year}/${Month}/${Day} ${Hours}:${Minutes}:${Seconds}`;
-            } else {
+            /*} else {
               return "";
-            }
+            }*/
           }
 
         //console.log("テスト")
         const todoList = {  //連想配列
             todo: todo.value,
             //三項演算子でやる
-            money: money.value === "" ? "０円" : `${money.value}円`,
+            money: money.value === "" ? "０円" : `${Number(money.value).toLocaleString()}円`,
             take: take.value,
-            date: format(date.value),
-            duedate: format(duedate.value),
+            date: date.value ? format(date.value) : "",
+            duedate: duedate.value ? format(duedate.value) : "",
             memo: memo.value,
             //三項演算子使ってみた(checkが入ってたら仮、入ってなかったら確定)
             checkbox: tentativePlan.checked ? "仮" : "確定",
@@ -150,6 +154,7 @@
             tableRecord.appendChild(tabletenTativePlan)
             tableRecord.appendChild(tableWeather)
         })
+
     }
 
     //全削除ボタン
@@ -166,7 +171,6 @@
 
      // ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
-     // todo: 削除ボタンが表示されないバグ修正
      //削除ボタン
      const createDeleteButton = (tableRecord) => {
        //引数をいれることで関数処理の中に引数を利用して処理ができる。//ボタンが押されたときに外部から渡される値　
@@ -188,19 +192,14 @@
 
     //選択削除ボタン
     selectDeleteButton.addEventListener("click", () => {
-        const checkBoxes = document.querySelectorAll("input[type='checkbox']") //const boxで作った<input>をここで取得。[]で属性の指定
-        const indexDelete = [] //削除の対象となるチェックボックスを保存する配列の定義
+        
+        const checkBoxes = document.querySelectorAll("div[class='box'] input") //const boxで作った<input>をここで取得。[]で属性の指定
 
         checkBoxes.forEach((checkBox, index) => { //checkBoxesの要素に対してのループ処理。　//第一引数に”checkBox(今の要素)”、第二引数に”位置”を指定　(要素,インデックス)の形
             if(checkBox.checked) {   //取得したチェックボックスがチェックされた時
-                indexDelete.push(index)  //そのチェックボックスのインデックスをindexDelete配列に追加
+                todolists.splice(index, 1)
             }
         })
-
-        for(let i = indexDelete.length - 1; i >= 0; i--) { //indexDelete配列に格納したインデックスを逆ループ処理。リストの末尾から順に削除し、０以上になるまでループさせる。
-            const index = indexDelete[i] //現在のループで処理するインデックスをindexとして取得した。
-            todolists.splice(index, 1) //todolists配列から、indexで指定された位置から1つ要素を削除。表を追加した際に生成される削除ボタンと同じ処理
-        }
         showTodos()
     })
 }
